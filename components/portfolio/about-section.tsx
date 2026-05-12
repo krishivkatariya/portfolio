@@ -62,12 +62,13 @@ export function AboutSection() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100])
 
   return (
-    <section id="about" className="py-32 relative overflow-hidden" ref={ref}>
+    <section id="about" className="py-32 relative overflow-hidden section-3d" ref={ref}>
       {/* Animated background element */}
       <motion.div 
         className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl"
         style={{ y: backgroundY }}
       />
+      <div className="hero-plane hero-plane-2" />
       
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -133,10 +134,12 @@ export function AboutSection() {
 
             {/* Core Stack */}
             <motion.div 
-              className="mt-10 p-6 glass-card rounded-2xl"
+              className="mt-10 p-6 glass-card rounded-2xl card-tilt"
+              style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
+              whileHover={{ y: -6, rotateX: 4, rotateY: -4, scale: 1.01 }}
             >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
@@ -149,11 +152,12 @@ export function AboutSection() {
 
             {/* Education Quick Info */}
             <motion.div 
-              className="mt-6 p-6 glass-card rounded-2xl group hover-lift"
+              className="mt-6 p-6 glass-card rounded-2xl card-tilt"
+              style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.7 }}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -6, rotateX: 4, rotateY: -4, scale: 1.02 }}
             >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
@@ -180,8 +184,10 @@ export function AboutSection() {
               <motion.div
                 key={item.title}
                 variants={itemVariants}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="glass-card p-6 rounded-2xl relative overflow-hidden group cursor-default"
+                whileHover={{ y: -12, rotateX: 6, rotateY: -6, scale: 1.03 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="glass-card p-6 rounded-2xl relative overflow-hidden group cursor-default card-tilt"
+                style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
               >
                 {/* Gradient background on hover */}
                 <motion.div 

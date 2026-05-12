@@ -397,14 +397,95 @@
   animation: scroll-hint 2s ease-in-out infinite;
 }
 
+/* Scene perspective helper */
+.scene {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.glass-card-3d {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.05));
+  box-shadow: 0 40px 120px rgba(15, 23, 42, 0.22);
+  transform-style: preserve-3d;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.three-d-scene,
+.section-3d {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+}
+
+.scene-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.hero-plane {
+  position: absolute;
+  border-radius: 2rem;
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(14, 165, 233, 0.05));
+  box-shadow: 0 40px 140px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  mix-blend-mode: screen;
+}
+
+.hero-plane-1 {
+  width: 28rem;
+  height: 28rem;
+  top: -4rem;
+  left: 10%;
+  transform: rotateX(35deg) rotateY(-20deg) translateZ(-60px);
+}
+
+.hero-plane-2 {
+  width: 22rem;
+  height: 22rem;
+  bottom: 10%;
+  right: 12%;
+  transform: rotateX(55deg) rotateY(10deg) translateZ(-90px);
+}
+
+.hero-plane-3 {
+  width: 16rem;
+  height: 16rem;
+  top: 15%;
+  right: 18%;
+  transform: rotateX(20deg) rotateY(40deg) translateZ(-40px);
+}
+
+.glow-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.18), transparent 18%),
+    radial-gradient(circle at 85% 15%, rgba(129, 140, 248, 0.12), transparent 22%),
+    radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.14), transparent 20%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.nav-3d {
+  transform-style: preserve-3d;
+}
+
+.nav-3d a {
+  transform: translateZ(8px);
+}
+
 /* Card tilt on hover */
 .card-tilt {
   transform-style: preserve-3d;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .card-tilt:hover {
-  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  transform: perspective(1200px) rotateX(6deg) rotateY(-6deg) translateY(-4px);
+  box-shadow: 0 40px 90px rgba(15, 23, 42, 0.28);
 }
 
 /* Number counter animation */

@@ -97,9 +97,10 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-32 relative" ref={ref}>
+    <section id="contact" className="py-32 relative section-3d" ref={ref}>
       {/* Background Decoration */}
       <div className="absolute bottom-0 left-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl" />
+      <div className="hero-plane hero-plane-2" />
 
       <div className="container mx-auto px-6">
         <motion.div

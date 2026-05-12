@@ -59,8 +59,9 @@ function SkillCard({
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -8 }}
-      className="glass-card p-6 rounded-2xl group hover:border-primary/30 transition-all duration-300"
+      whileHover={{ y: -10, rotateX: 5, rotateY: -5, scale: 1.02 }}
+      className="glass-card p-6 rounded-2xl group hover:border-primary/30 transition-all duration-300 card-tilt"
+      style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
     >
       {/* Header with Icon */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
@@ -104,9 +105,10 @@ export function SkillsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="skills" className="py-32 relative" ref={ref}>
+    <section id="skills" className="py-32 relative section-3d" ref={ref}>
       {/* Background Decoration */}
       <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-accent/5 rounded-full blur-3xl" />
+      <div className="hero-plane hero-plane-1" />
 
       <div className="container mx-auto px-6">
         <motion.div
@@ -160,6 +162,7 @@ export function SkillsSection() {
                 whileHover={{ 
                   scale: 1.1, 
                   y: -4,
+                  rotateX: 4,
                   backgroundColor: "rgba(96, 165, 250, 0.2)"
                 }}
                 className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-full cursor-default hover:text-primary transition-all duration-200"

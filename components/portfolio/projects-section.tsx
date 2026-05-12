@@ -49,8 +49,9 @@ function ProjectCard({
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      whileHover={{ y: -8 }}
-      className="group relative glass-card rounded-2xl overflow-hidden"
+      whileHover={{ y: -12, rotateX: 6, rotateY: -6, scale: 1.03 }}
+      className="group relative glass-card rounded-2xl overflow-hidden card-tilt"
+      style={{ transformStyle: "preserve-3d", perspective: 1200 }}
     >
       {/* Image Placeholder with Gradient */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
@@ -182,11 +183,12 @@ export function ProjectsSection() {
   }, [])
 
   return (
-    <section id="projects" className="py-32 relative" ref={ref}>
+    <section id="projects" className="py-32 relative section-3d" ref={ref}>
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl" />
+      <div className="hero-plane hero-plane-3" />
       
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 scene-card">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
