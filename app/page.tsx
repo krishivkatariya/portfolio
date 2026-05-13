@@ -1,14 +1,17 @@
 import { Navigation } from "@/components/portfolio/navigation"
-import { Hero3D } from "@/components/portfolio/hero-3d"
 import { AboutSection } from "@/components/portfolio/about-section"
 import { ProjectsSection } from "@/components/portfolio/projects-section"
-import { Skills3D } from "@/components/portfolio/skills-3d"
 import { EducationSection } from "@/components/portfolio/education-section"
 import { CertificationsSection } from "@/components/portfolio/certifications-section"
 import { GitHubStatsSection } from "@/components/portfolio/github-stats-section"
 import { ContactSection } from "@/components/portfolio/contact-section"
 import { Footer } from "@/components/portfolio/footer"
-import { ThreeDScene } from "@/components/portfolio/three-d-scene"
+import dynamic from 'next/dynamic'
+
+// Dynamically import 3D components to avoid SSR issues
+const ThreeDScene = dynamic(() => import('@/components/portfolio/three-d-scene'), { ssr: false })
+const Hero3D = dynamic(() => import('@/components/portfolio/hero-3d'), { ssr: false })
+const Skills3D = dynamic(() => import('@/components/portfolio/skills-3d'), { ssr: false })
 
 export default function PortfolioPage() {
   const skills = [
