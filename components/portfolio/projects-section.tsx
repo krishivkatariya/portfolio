@@ -5,6 +5,7 @@ import { useRef, useEffect, useState } from "react"
 import { ExternalLink, Github, Star, GitFork, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import Projects3D from "./projects-3d"
 
 interface GitHubRepo {
   id: number
@@ -228,16 +229,28 @@ export function ProjectsSection() {
 
         {/* Projects Grid */}
         {!loading && !error && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <ProjectCard 
-                key={project.id} 
-                project={project} 
-                index={index} 
-                isInView={isInView} 
-              />
-            ))}
-          </div>
+          <>
+            {/* 3D Projects Visualization */}
+            <div className="mb-16">
+              <Projects3D projects={projects.map(project => ({
+                title: project.name.replace(/-/g, " ").replace(/_/g, " "),
+                description: project.description || "A project by Krishiv Katariya",
+                technologies: project.topics?.slice(0, 3) || [project.language || "Code"],
+                link: project.html_url
+              }))} />
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  isInView={isInView}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* View All Projects Button */}
