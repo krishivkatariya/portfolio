@@ -23,9 +23,9 @@ export function Footer() {
   }
 
   return (
-    <footer className="relative py-16 border-t border-border">
+    <footer className="relative py-16 border-t border-border section-3d">
       {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none glow-grid" />
 
       <div className="container mx-auto px-6 relative">
         <div className="flex flex-col items-center">

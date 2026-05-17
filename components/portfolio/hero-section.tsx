@@ -1,9 +1,9 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail, Download, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useState, type MouseEvent } from "react"
 
 const codeSnippets = [
   "const passion = 'AI/ML';",
@@ -27,6 +27,26 @@ export function HeroSection() {
   const [displayText, setDisplayText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
 
+<<<<<<< HEAD
+=======
+  const cardRotateX = useMotionValue(0)
+  const cardRotateY = useMotionValue(0)
+
+  const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const x = (event.clientX - rect.left) / rect.width
+    const y = (event.clientY - rect.top) / rect.height
+    cardRotateY.set((x - 0.5) * 18)
+    cardRotateX.set((0.5 - y) * 18)
+  }
+
+  const handleMouseLeave = () => {
+    cardRotateX.set(0)
+    cardRotateY.set(0)
+  }
+  
+>>>>>>> 670c5a768f6cd1047f6a4453ecb4ca0829fa139e
   useEffect(() => {
     const snippet = codeSnippets[currentSnippet]
     let charIndex = 0
@@ -57,13 +77,25 @@ export function HeroSection() {
   }, [currentSnippet, isTyping, displayText.length])
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden section-3d"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* Animated Background */}
       <motion.div
         className="absolute inset-0 grid-pattern opacity-30"
         style={{ y }}
       />
+<<<<<<< HEAD
 
+=======
+      
+      {/* 3D background planes */}
+      <motion.div className="hero-plane hero-plane-1" animate={{ rotateZ: [0, 12, -12, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }} />
+      <motion.div className="hero-plane hero-plane-2" animate={{ rotateZ: [0, -10, 10, 0] }} transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }} />
+      <motion.div className="hero-plane hero-plane-3" animate={{ rotateZ: [0, 8, -8, 0] }} transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }} />
+      
+>>>>>>> 670c5a768f6cd1047f6a4453ecb4ca0829fa139e
       {/* Animated gradient orbs */}
       <motion.div
         className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[100px]"
@@ -109,10 +141,28 @@ export function HeroSection() {
         </motion.div>
       ))}
 
+<<<<<<< HEAD
       <motion.div
         className="container mx-auto px-6 relative z-10"
         style={{ opacity, scale }}
+=======
+      <motion.div 
+        className="container mx-auto px-6 relative z-10 scene scene-card"
+        style={{ opacity, scale, perspective: 1200, rotateX: cardRotateX, rotateY: cardRotateY }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+>>>>>>> 670c5a768f6cd1047f6a4453ecb4ca0829fa139e
       >
+        <motion.div
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden xl:block w-[560px] h-[560px] rounded-[2.5rem] glass-card-3d border border-primary/10"
+          animate={{
+            rotateY: [0, 18, 0, -18, 0],
+            rotateX: [0, -10, 0, 10, 0],
+            opacity: [0.28, 0.45, 0.28],
+          }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        />
+
         <div className="max-w-4xl mx-auto text-center">
           {/* Animated Status Badge */}
           <motion.div
