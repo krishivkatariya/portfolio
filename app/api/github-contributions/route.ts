@@ -38,7 +38,11 @@ export async function GET() {
     }
 
     const body = await response.text()
-    const rectMatches = Array.from(body.matchAll(/<rect[^>]*class="ContributionCalendar-day"[^>]*>/g))
+    let rectMatches = Array.from(body.matchAll(/<rect\b[^>]*\bdata-date=(?:"[^"]*"|'[^']*')[^>]*>/g))
+
+    if (rectMatches.length === 0) {
+      rectMatches = Array.from(body.matchAll(/<rect[^>]*class="ContributionCalendar-day"[^>]*>/g))
+    }
 
     if (rectMatches.length === 0) {
       return NextResponse.json(
@@ -51,7 +55,18 @@ export async function GET() {
       const attrs = parseAttributes(match[0])
       const date = attrs["data-date"] || ""
       const count = parseInt(attrs["data-count"] || "0", 10)
-      const level = Math.min(Math.max(parseInt(attrs["data-level"] || "0", 10), 0), 4)
+      const rawLevel = attrs["data-level"]
+      const level = rawLevel
+        ? Math.min(Math.max(parseInt(rawLevel, 10), 0), 4)
+        : count === 0
+          ? 0
+          : count < 3
+            ? 1
+            : count < 5
+              ? 2
+              : count < 8
+                ? 3
+                : 4
       const x = parseInt(attrs["x"] || "0", 10)
       const dateObject = new Date(date)
       const weekday = Number.isNaN(dateObject.getTime()) ? 0 : dateObject.getUTCDay()

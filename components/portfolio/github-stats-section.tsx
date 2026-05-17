@@ -126,7 +126,7 @@ export function GitHubStatsSection() {
     setContribError(null)
 
     try {
-      const response = await fetch("/api/github-contributions")
+      const response = await fetch("/api/github-contributions", { cache: "no-store" })
       const data = await response.json()
 
       if (!response.ok || !data.days) {
@@ -142,6 +142,9 @@ export function GitHubStatsSection() {
   useEffect(() => {
     fetchGitHubStats()
     fetchContributions()
+
+    const refreshInterval = setInterval(fetchContributions, 60000)
+    return () => clearInterval(refreshInterval)
   }, [])
 
   const weeks = useMemo(() => {
@@ -337,7 +340,7 @@ export function GitHubStatsSection() {
             <Activity className="w-5 h-5 text-primary" />
             <div>
               <h3 className="text-lg font-semibold text-foreground">Contribution Activity</h3>
-              <p className="text-sm text-muted-foreground">Live GitHub heatmap updated automatically with every commit.</p>
+              <p className="text-sm text-muted-foreground">Automatically refreshes every minute to keep the contribution heatmap up to date.</p>
             </div>
           </div>
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { GraduationCap, Calendar, MapPin, Award, BookOpen, ChevronRight } from "lucide-react"
 
 const education = [
@@ -11,6 +11,7 @@ const education = [
     location: "Nadiad, Gujarat",
     duration: "2024 - 2028",
     status: "Currently Pursuing",
+    completionDate: "2028-05-01",
     highlights: [
       "Computer Science Engineering",
       "Focus on AI/ML and Software Development",
@@ -42,6 +43,75 @@ export function EducationSection() {
     offset: ["start end", "end start"]
   })
   
+  const [courses, setCourses] = useState(() => {
+    const now = new Date()
+
+    return education.map((course) => {
+      const endDate = course.completionDate ? new Date(course.completionDate) : null
+      const shouldComplete = course.status === "Currently Pursuing" && endDate !== null && endDate <= now
+
+      return {
+        ...course,
+        status: shouldComplete ? "Completed" : course.status
+      }
+    })
+  })
+
+  const [completionNotification, setCompletionNotification] = useState<string | null>(null)
+
+  useEffect(() => {
+    const now = new Date()
+    const completedCourses = education.filter((course) => {
+      const endDate = course.completionDate ? new Date(course.completionDate) : null
+      return course.status === "Currently Pursuing" && endDate !== null && endDate <= now
+    })
+
+    if (completedCourses.length === 0) {
+      return
+    }
+
+    const notified = typeof window !== "undefined"
+      ? JSON.parse(window.localStorage.getItem("educationCompletionNotified") || "[]") as string[]
+      : []
+
+    const coursesToNotify = completedCourses.filter((course) => !notified.includes(course.institution))
+
+    if (coursesToNotify.length === 0) {
+      return
+    }
+
+    const sendNotifications = async () => {
+      try {
+        await Promise.all(coursesToNotify.map((course) =>
+          fetch("/api/course-completion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              degree: course.degree,
+              institution: course.institution,
+              completionDate: course.completionDate,
+            })
+          })
+        ))
+
+        const completedNames = coursesToNotify.map((course) => course.institution)
+        const nextNotified = [...notified, ...completedNames]
+
+        if (typeof window !== "undefined") {
+          window.localStorage.setItem("educationCompletionNotified", JSON.stringify(nextNotified))
+        }
+
+        setCompletionNotification(
+          `Notification sent for completed course${coursesToNotify.length > 1 ? "s" : ""}: ${completedNames.join(", ")}`
+        )
+      } catch (error) {
+        setCompletionNotification("Unable to send course completion notification automatically.")
+      }
+    }
+
+    sendNotifications()
+  }, [])
+
   const lineHeight = useTransform(scrollYProgress, [0, 0.5], ["0%", "100%"])
 
   return (
@@ -87,6 +157,17 @@ export function EducationSection() {
             My educational background that has shaped my technical foundation
             and passion for computer science.
           </motion.p>
+
+          {completionNotification && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.25 }}
+              className="mt-6 inline-flex items-center justify-center rounded-full border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary"
+            >
+              {completionNotification}
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Timeline */}
@@ -99,7 +180,7 @@ export function EducationSection() {
               style={{ height: lineHeight }}
             />
 
-            {education.map((edu, index) => (
+            {courses.map((edu, index) => (
               <motion.div
                 key={edu.institution}
                 initial={{ opacity: 0, y: 50 }}

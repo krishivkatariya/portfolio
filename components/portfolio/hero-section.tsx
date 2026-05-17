@@ -174,10 +174,19 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={() => window.location.href = '/resume'}
+            >
               <Download className="w-4 h-4 mr-2" /> Resume
             </Button>
-            <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-primary text-primary hover:bg-primary/10"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <Mail className="w-4 h-4 mr-2" /> Contact
             </Button>
           </motion.div>

@@ -2,8 +2,8 @@
 import nodemailer from "nodemailer"
 
 const recipientEmail = process.env.CONTACT_EMAIL || "krishivkatariya8116@gmail.com"
-const gmailUser = process.env.GMAIL_USER
-const gmailPass = process.env.GMAIL_PASS
+const gmailUser = process.env.GMAIL_USER || process.env.EMAIL_USER || process.env.MAIL_USER
+const gmailPass = process.env.GMAIL_PASS || process.env.EMAIL_PASS || process.env.MAIL_PASS
 
 export async function POST(request: Request) {
   try {
@@ -27,7 +27,10 @@ export async function POST(request: Request) {
 
     if (!gmailUser || !gmailPass) {
       return NextResponse.json(
-        { error: "Email service is not configured. Set GMAIL_USER and GMAIL_PASS." },
+        {
+          error:
+            "Email service is not configured. Add GMAIL_USER and GMAIL_PASS (or EMAIL_USER and EMAIL_PASS) to your environment, then restart the server."
+        },
         { status: 500 }
       )
     }

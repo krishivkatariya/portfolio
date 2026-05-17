@@ -75,7 +75,24 @@ export function ContactSection() {
       setIsSubmitted(true)
       setFormData({ name: "", email: "", subject: "", message: "" })
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Failed to send message")
+      const msg = error instanceof Error ? error.message : "Failed to send message"
+
+      // If the server indicates SMTP isn't configured, fall back to opening
+      // the Gmail compose window with the message prefilled so users can still send.
+      if (typeof window !== "undefined" && msg.includes("Email service is not configured")) {
+        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com&su=${encodeURIComponent(
+          formData.subject
+        )}&body=${encodeURIComponent(
+          `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        )}`
+
+        window.open(gmailLink, "_blank")
+        setIsSubmitted(true)
+        setFormData({ name: "", email: "", subject: "", message: "" })
+        setSubmitError(null)
+      } else {
+        setSubmitError(msg)
+      }
     } finally {
       setIsSubmitting(false)
     }
