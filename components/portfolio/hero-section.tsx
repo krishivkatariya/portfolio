@@ -18,19 +18,19 @@ export function HeroSection() {
     target: containerRef,
     offset: ["start start", "end start"]
   })
-  
+
   const y = useTransform(scrollYProgress, [0, 1], [0, 200])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
-  
+
   const [currentSnippet, setCurrentSnippet] = useState(0)
   const [displayText, setDisplayText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
-  
+
   useEffect(() => {
     const snippet = codeSnippets[currentSnippet]
     let charIndex = 0
-    
+
     if (isTyping) {
       const typingInterval = setInterval(() => {
         if (charIndex <= snippet.length) {
@@ -59,31 +59,31 @@ export function HeroSection() {
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 grid-pattern opacity-30"
         style={{ y }}
       />
-      
+
       {/* Animated gradient orbs */}
-      <motion.div 
+      <motion.div
         className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[100px]"
-        animate={{ 
+        animate={{
           scale: [1, 1.2, 1],
           x: [0, 50, 0],
           y: [0, -30, 0],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div 
+      <motion.div
         className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[100px]"
-        animate={{ 
+        animate={{
           scale: [1.2, 1, 1.2],
           x: [0, -40, 0],
           y: [0, 40, 0],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
-      
+
       {/* Floating code particles */}
       {[...Array(6)].map((_, i) => (
         <motion.div
@@ -109,7 +109,7 @@ export function HeroSection() {
         </motion.div>
       ))}
 
-      <motion.div 
+      <motion.div
         className="container mx-auto px-6 relative z-10"
         style={{ opacity, scale }}
       >
@@ -121,7 +121,7 @@ export function HeroSection() {
             transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 shine-effect"
           >
-            <motion.span 
+            <motion.span
               className="w-2 h-2 bg-green-400 rounded-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -139,7 +139,7 @@ export function HeroSection() {
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
             >
-              <motion.span 
+              <motion.span
                 className="inline-block text-foreground"
                 initial={{ opacity: 0, y: 50, rotateX: -90 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -147,7 +147,7 @@ export function HeroSection() {
               >
                 Hi, I&apos;m{" "}
               </motion.span>
-              <motion.span 
+              <motion.span
                 className="inline-block text-gradient"
                 initial={{ opacity: 0, y: 50, rotateX: -90 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
@@ -168,7 +168,7 @@ export function HeroSection() {
             <p className="text-xl md:text-2xl text-muted-foreground mb-2">
               Computer Science Student & Aspiring
             </p>
-            <motion.p 
+            <motion.p
               className="text-2xl md:text-3xl font-semibold text-foreground"
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 5, repeat: Infinity }}
@@ -209,8 +209,8 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Passionate about AI/ML and building intelligent software solutions. 
-            Proficient in Python, Java, C++, and Django with expertise in leveraging 
+            Passionate about AI/ML and building intelligent software solutions.
+            Proficient in Python, Java, C++, and Django with expertise in leveraging
             AI tools effectively. TechFest 2025 College Ambassador.
           </motion.p>
 
@@ -225,20 +225,18 @@ export function HeroSection() {
               <Button
                 size="lg"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 glow group relative overflow-hidden"
-                asChild
+                onClick={() => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com', '_blank')}
               >
-                <a href="#contact">
-                  <span className="relative z-10 flex items-center">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Get in Touch
-                  </span>
-                  <motion.div
-                    className="absolute inset-0 bg-white/20"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </a>
+                <span className="relative z-10 flex items-center">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Contact
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-white/20"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.5 }}
+                />
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -246,12 +244,10 @@ export function HeroSection() {
                 size="lg"
                 variant="outline"
                 className="border-border hover:bg-secondary group gradient-border"
-                asChild
+                onClick={() => window.open('/resume.pdf', '_blank')}
               >
-                <a href="/resume">
-                  <Download className="w-5 h-5 mr-2 group-hover:animate-bounce" />
-                  Download CV
-                </a>
+                <Download className="w-5 h-5 mr-2 group-hover:animate-bounce" />
+                Download CV
               </Button>
             </motion.div>
           </motion.div>
@@ -266,7 +262,7 @@ export function HeroSection() {
             {[
               { href: "https://github.com/krishivkatariya", icon: Github, label: "GitHub" },
               { href: "https://www.linkedin.com/in/krishivkatariya", icon: Linkedin, label: "LinkedIn" },
-              { href: "mailto:krishivkatariya8116@gmail.com", icon: Mail, label: "Email" },
+              { href: "https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com", icon: Mail, label: "Email" },
             ].map((social, index) => (
               <motion.a
                 key={social.label}
@@ -293,8 +289,8 @@ export function HeroSection() {
           transition={{ delay: 1.5 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
-          <motion.a 
-            href="#about" 
+          <motion.a
+            href="#about"
             className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
             whileHover={{ y: -3 }}
           >
@@ -309,7 +305,7 @@ export function HeroSection() {
           </motion.a>
         </motion.div>
       </motion.div>
-      
+
       {/* Side decorations */}
       <motion.div
         className="absolute left-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4"
@@ -323,7 +319,7 @@ export function HeroSection() {
         </span>
         <div className="w-px h-20 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
       </motion.div>
-      
+
       <motion.div
         className="absolute right-8 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-4"
         initial={{ opacity: 0, x: 20 }}

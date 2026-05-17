@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     // For now, we'll return success and the form will open the user's email client
     // with a pre-filled email as a fallback
     
-    const mailtoLink = `mailto:krishivkatariya8116@gmail.com?subject=${encodeURIComponent(
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com&su=${encodeURIComponent(
       `Portfolio Contact: ${subject}`
     )}&body=${encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       message: "Message received! Opening email client...",
-      mailtoLink,
+      mailtoLink: gmailLink,
     })
   } catch {
     return NextResponse.json(

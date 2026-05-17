@@ -9,37 +9,37 @@ const skillCategories = [
     title: "Languages",
     icon: Code,
     color: "from-blue-500 to-cyan-500",
-    skills: ["Java", "C++", "Python", "SQL", "JavaScript", "HTML/CSS"]
+    skills: ["Java", "C++", "C", "Python", "SQL", "JavaScript", "HTML/CSS"]
   },
   {
     title: "Frontend",
     icon: Layout,
     color: "from-purple-500 to-pink-500",
-    skills: ["HTML5", "CSS3", "React", "Tailwind CSS", "Bootstrap", "Responsive Design"]
+    skills: ["Bootstrap", "HTML", "CSS", "JavaScript"]
   },
   {
-    title: "Backend",
+    title: "Backend & Database",
     icon: Server,
     color: "from-orange-500 to-red-500",
-    skills: ["Django", "Python Flask", "REST APIs", "Node.js", "Express", "FastAPI"]
+    skills: ["JavaScript (Node.js)", "Python", "Java", "Django", "Firebase", "SQL"]
   },
   {
-    title: "Database",
+    title: "Database & Cloud",
     icon: Database,
     color: "from-green-500 to-emerald-500",
-    skills: ["MySQL", "PostgreSQL", "SQLite", "MongoDB", "Database Design", "Query Optimization"]
+    skills: ["MySQL", "Firebase Studio", "MongoDB", "Cloud Services"]
   },
   {
     title: "Tools & DevOps",
     icon: Wrench,
     color: "from-yellow-500 to-orange-500",
-    skills: ["Git", "Jupyter Notebooks", "Linux", "Figma", "VS Code", "Docker"]
+    skills: ["Git", "Jupyter Notebooks", "Linux", "Figma", "VS Code"]
   },
   {
     title: "AI/ML Tools",
     icon: Brain,
     color: "from-indigo-500 to-purple-500",
-    skills: ["ChatGPT/GPT-4", "Claude AI", "Midjourney", "GitHub Copilot", "NumPy/Pandas", "Scikit-learn"]
+    skills: ["Claude Code", "ChatGPT/GPT-4", "AI Model Understanding", "GitHub Copilot", "Lovable", "Notion", "Kimi", "NotebookLM", "Perplexity", "Genspark"]
   }
 ]
 

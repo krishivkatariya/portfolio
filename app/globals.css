@@ -397,15 +397,6 @@
   animation: scroll-hint 2s ease-in-out infinite;
 }
 
-/* Card tilt on hover */
-.card-tilt {
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-}
-
-.card-tilt:hover {
-  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
-}
 
 /* Number counter animation */
 @keyframes count-up {
