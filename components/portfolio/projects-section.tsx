@@ -33,17 +33,17 @@ const languageColors: Record<string, string> = {
   "Dart": "#00B4AB",
 }
 
-function ProjectCard({ 
-  project, 
-  index, 
-  isInView 
-}: { 
+function ProjectCard({
+  project,
+  index,
+  isInView
+}: {
   project: GitHubRepo
   index: number
-  isInView: boolean 
+  isInView: boolean
 }) {
   const languageColor = project.language ? languageColors[project.language] || "#6e6e6e" : "#6e6e6e"
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -55,25 +55,25 @@ function ProjectCard({
       {/* Image Placeholder with Gradient */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div 
+          <motion.div
             className="w-20 h-20 rounded-2xl bg-primary/20 flex items-center justify-center"
             whileHover={{ rotate: 360, scale: 1.1 }}
             transition={{ duration: 0.5 }}
           >
             <span className="text-4xl">
-              {project.language === "Python" ? "🐍" : 
-               project.language === "Java" ? "☕" :
-               project.language === "JavaScript" ? "🟨" :
-               project.language === "TypeScript" ? "🔷" :
-               project.language === "HTML" ? "🌐" :
-               project.language === "C++" ? "⚡" : "💻"}
+              {project.language === "Python" ? "🐍" :
+                project.language === "Java" ? "☕" :
+                  project.language === "JavaScript" ? "🟨" :
+                    project.language === "TypeScript" ? "🔷" :
+                      project.language === "HTML" ? "🌐" :
+                        project.language === "C++" ? "⚡" : "💻"}
             </span>
           </motion.div>
         </div>
 
         {/* Language Badge */}
         {project.language && (
-          <Badge 
+          <Badge
             className="absolute top-4 right-4 border-0"
             style={{ backgroundColor: languageColor, color: "white" }}
           >
@@ -154,11 +154,11 @@ export function ProjectsSection() {
         const response = await fetch(
           "https://api.github.com/users/krishivkatariya/repos?sort=updated&per_page=100"
         )
-        
+
         if (!response.ok) {
           throw new Error("Failed to fetch projects")
         }
-        
+
         const data: GitHubRepo[] = await response.json()
         const allowedRepos = [
           "Hopin",
@@ -216,7 +216,7 @@ export function ProjectsSection() {
             <span className="text-gradient">Featured Projects</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Projects fetched directly from my GitHub. These are automatically 
+            Projects fetched directly from my GitHub. These are automatically
             updated when I push new work.
           </p>
         </motion.div>

@@ -24,13 +24,13 @@ const skillCategories = [
     skills: ["Next.js"]
   },
   {
-    title: "Backend",
+    title: "Backend & Database",
     icon: Server,
     color: "from-orange-500 to-red-500",
     skills: ["JavaScript", "Python", "Java", "PHP", "Django", "Firebase Studio", "Node.js"]
   },
   {
-    title: "Database",
+    title: "Database & Cloud",
     icon: Database,
     color: "from-green-500 to-emerald-500",
     skills: ["MySQL", "Firebase Studio", "MongoDB"]

@@ -399,6 +399,8 @@
   animation: scroll-hint 2s ease-in-out infinite;
 }
 
+<<<<<<< HEAD
+=======
 /* Scene perspective helper */
 .scene {
   perspective: 1200px;
@@ -489,6 +491,7 @@
   transform: perspective(1200px) rotateX(6deg) rotateY(-6deg) translateY(-4px);
   box-shadow: 0 40px 90px rgba(15, 23, 42, 0.28);
 }
+>>>>>>> 670c5a768f6cd1047f6a4453ecb4ca0829fa139e
 
 /* Number counter animation */
 @keyframes count-up {

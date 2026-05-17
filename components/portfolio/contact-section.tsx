@@ -14,7 +14,7 @@ const contactInfo = [
     icon: Mail,
     label: "Email",
     value: "krishivkatariya8116@gmail.com",
-    href: "mailto:krishivkatariya8116@gmail.com"
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com"
   },
   {
     icon: MapPin,
@@ -299,7 +299,7 @@ export function ContactSection() {
                 variant="outline"
                 className="w-full border-primary/30 hover:bg-primary/10"
               >
-                <a href="mailto:krishivkatariya8116@gmail.com">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Or email me directly
                 </a>
