@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect, useMemo, useState } from "react"
 import { Github, GitCommit, Star, Users, Code2, Activity, ExternalLink, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -36,12 +36,31 @@ const languageColors: Record<string, string> = {
   "Other": "#6e6e6e",
 }
 
+interface ContributionDay {
+  date: string
+  count: number
+  level: number
+  weekday: number
+  weekIndex: number
+  title: string
+}
+
+const contributionLevelClasses = [
+  "bg-slate-800",
+  "bg-[#9be9a8]",
+  "bg-[#40c463]",
+  "bg-[#30a14e]",
+  "bg-[#216e39]",
+]
+
 export function GitHubStatsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [stats, setStats] = useState<GitHubStats>(defaultStats)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [contributions, setContributions] = useState<ContributionDay[]>([])
+  const [contribError, setContribError] = useState<string | null>(null)
 
   const fetchGitHubStats = async () => {
     setLoading(true)
@@ -103,9 +122,43 @@ export function GitHubStatsSection() {
     }
   }
 
+  const fetchContributions = async () => {
+    setContribError(null)
+
+    try {
+      const response = await fetch("/api/github-contributions")
+      const data = await response.json()
+
+      if (!response.ok || !data.days) {
+        throw new Error(data.error || "Failed to fetch GitHub contributions")
+      }
+
+      setContributions(data.days)
+    } catch (err) {
+      setContribError(err instanceof Error ? err.message : "Failed to load contribution calendar")
+    }
+  }
+
   useEffect(() => {
     fetchGitHubStats()
+    fetchContributions()
   }, [])
+
+  const weeks = useMemo(() => {
+    const weekMap = new Map<number, ContributionDay[]>()
+
+    contributions.forEach((day) => {
+      const week = day.weekIndex
+      if (!weekMap.has(week)) {
+        weekMap.set(week, [])
+      }
+      weekMap.get(week)!.push(day)
+    })
+
+    return Array.from(weekMap.entries())
+      .sort((a, b) => a[0] - b[0])
+      .map(([, days]) => days.sort((a, b) => a.weekday - b.weekday))
+  }, [contributions])
 
   const statsDisplay = [
     { icon: GitCommit, label: "Public Repos", value: stats.publicRepos },
@@ -278,19 +331,62 @@ export function GitHubStatsSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="glass-card p-6 rounded-2xl mb-8"
+          className="glass-card p-6 rounded-2xl mb-8 bg-slate-950/95 border border-slate-800 shadow-xl"
         >
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-4">
             <Activity className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold text-foreground">Contribution Activity</h3>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground">Contribution Activity</h3>
+              <p className="text-sm text-muted-foreground">Live GitHub heatmap updated automatically with every commit.</p>
+            </div>
           </div>
-          <div className="overflow-x-auto">
-            <img
-              src="https://ghchart.rshah.org/60a5fa/krishivkatariya"
-              alt="GitHub Contribution Graph"
-              className="w-full min-w-[700px] h-auto rounded-lg"
-              loading="lazy"
-            />
+
+          <div className="overflow-x-auto rounded-3xl bg-slate-950 p-4 border border-slate-800">
+            {contributions.length > 0 ? (
+              <div className="inline-flex gap-1 py-3">
+                {weeks.map((week, weekIndex) => (
+                  <div key={weekIndex} className="grid grid-rows-7 gap-1">
+                    {week.map((day) => (
+                      <div
+                        key={day.date}
+                        className={`h-3 w-3 rounded-sm border border-slate-800 ${contributionLevelClasses[day.level]}`}
+                        title={day.title}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ) : contribError ? (
+              <div className="rounded-2xl bg-slate-900 p-6 text-sm text-muted-foreground">
+                {contribError}
+              </div>
+            ) : (
+              <div className="grid grid-cols-7 gap-2">
+                {Array.from({ length: 7 }).map((_, week) => (
+                  <div key={week} className="space-y-2">
+                    {Array.from({ length: 24 }).map((__, day) => (
+                      <div
+                        key={`${week}-${day}`}
+                        className="h-3 w-3 rounded-sm bg-slate-800 animate-pulse"
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 grid grid-cols-5 gap-2 text-[11px] text-muted-foreground">
+            <div className="col-span-2 flex items-center gap-2">
+              <span className="font-medium">Intensity</span>
+              <span className="text-slate-500">(less to more activity)</span>
+            </div>
+            {contributionLevelClasses.map((cls, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span className={`h-3 w-3 rounded-sm border border-slate-800 ${cls}`} />
+                <span>{index === 0 ? "None" : index === 1 ? "Low" : index === 2 ? "Medium" : index === 3 ? "High" : "Peak"}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
 

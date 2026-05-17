@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { motion, useInView } from "framer-motion"
@@ -44,6 +44,7 @@ export function ContactSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -54,36 +55,27 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+    setSubmitError(null)
+    setIsSubmitted(false)
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       })
 
-      const data = await response.json()
-
-      if (data.success && data.mailtoLink) {
-        // Open the mailto link in a new window
-        window.location.href = data.mailtoLink
-        setIsSubmitted(true)
-        setFormData({ name: "", email: "", subject: "", message: "" })
-        
-        // Reset success state after showing
-        setTimeout(() => setIsSubmitted(false), 5000)
+      const result = await response.json()
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send message")
       }
-    } catch {
-      // Fallback: directly open mailto
-      const mailtoLink = `mailto:krishivkatariya8116@gmail.com?subject=${encodeURIComponent(
-        `Portfolio Contact: ${formData.subject}`
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-      )}`
-      window.location.href = mailtoLink
+
       setIsSubmitted(true)
+      setFormData({ name: "", email: "", subject: "", message: "" })
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Failed to send message")
     } finally {
       setIsSubmitting(false)
     }
@@ -194,12 +186,12 @@ export function ContactSection() {
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                         </svg>
                       </span>
-                      Opening Email...
+                      Sending...
                     </>
                   ) : isSubmitted ? (
                     <>
                       <CheckCircle className="w-5 h-5 mr-2" />
-                      Email Client Opened!
+                      Message Sent
                     </>
                   ) : (
                     <>
@@ -209,8 +201,20 @@ export function ContactSection() {
                   )}
                 </Button>
 
+                {submitError && (
+                  <p className="text-sm text-destructive text-center mt-3">
+                    {submitError}
+                  </p>
+                )}
+
+                {isSubmitted && (
+                  <p className="text-sm text-primary text-center mt-3">
+                    Message sent successfully from the portfolio. I will get back to you soon.
+                  </p>
+                )}
+
                 <p className="text-xs text-muted-foreground text-center">
-                  This will open your default email client with your message pre-filled.
+                  Messages are now sent directly from the portfolio backend using Gmail.
                 </p>
               </form>
             </div>

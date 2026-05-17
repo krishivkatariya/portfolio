@@ -9,7 +9,7 @@ const certifications = [
   {
     title: "TechFest 2025 College Ambassador",
     issuer: "IIT Bombay - TechFest",
-    date: "December 2024",
+    date: "December 2025",
     credentialId: "Appreciation Certificate",
     link: "https://techfest.org",
     icon: "🎓",
@@ -19,7 +19,7 @@ const certifications = [
   {
     title: "Python Programming",
     issuer: "Add your certification",
-    date: "2024",
+    date: "2026",
     credentialId: "Add credential ID",
     link: "#",
     icon: "🐍",
@@ -29,7 +29,7 @@ const certifications = [
   {
     title: "Machine Learning Fundamentals",
     issuer: "Add your certification",
-    date: "2024",
+    date: "2025",
     credentialId: "Add credential ID",
     link: "#",
     icon: "🤖",
@@ -39,7 +39,7 @@ const certifications = [
   {
     title: "Java Programming",
     issuer: "Add your certification",
-    date: "2024",
+    date: "2025",
     credentialId: "Add credential ID",
     link: "#",
     icon: "☕",
@@ -59,7 +59,7 @@ const certifications = [
   {
     title: "Database Management",
     issuer: "Add your certification",
-    date: "2024",
+    date: "2025",
     credentialId: "Add credential ID",
     link: "#",
     icon: "🗄️",

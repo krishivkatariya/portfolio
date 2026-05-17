@@ -9,37 +9,55 @@ const skillCategories = [
     title: "Languages",
     icon: Code,
     color: "from-blue-500 to-cyan-500",
-    skills: ["Java", "C++", "Python", "SQL", "JavaScript", "HTML/CSS"]
+    skills: ["C", "Java", "C++", "Python", "SQL", "JavaScript"]
   },
   {
     title: "Frontend",
     icon: Layout,
     color: "from-purple-500 to-pink-500",
-    skills: ["HTML5", "CSS3", "React", "Tailwind CSS", "Bootstrap", "Responsive Design"]
+    skills: ["HTML", "CSS", "JavaScript", "Bootstrap", "React", "Tailwind CSS"]
+  },
+  {
+    title: "Frameworks & Libraries",
+    icon: Layout,
+    color: "from-sky-500 to-indigo-500",
+    skills: ["Next.js"]
   },
   {
     title: "Backend",
     icon: Server,
     color: "from-orange-500 to-red-500",
-    skills: ["Django", "Python Flask", "REST APIs", "Node.js", "Express", "FastAPI"]
+    skills: ["JavaScript", "Python", "Java", "PHP", "Django", "Firebase Studio", "Node.js"]
   },
   {
     title: "Database",
     icon: Database,
     color: "from-green-500 to-emerald-500",
-    skills: ["MySQL", "PostgreSQL", "SQLite", "MongoDB", "Database Design", "Query Optimization"]
+    skills: ["MySQL", "Firebase Studio", "MongoDB"]
   },
   {
     title: "Tools & DevOps",
     icon: Wrench,
     color: "from-yellow-500 to-orange-500",
-    skills: ["Git", "Jupyter Notebooks", "Linux", "Figma", "VS Code", "Docker"]
+    skills: ["Git", "Jupyter Notebooks", "Linux", "VS Code", "Antigravity", "Cursor"]
   },
   {
     title: "AI/ML Tools",
     icon: Brain,
     color: "from-indigo-500 to-purple-500",
-    skills: ["ChatGPT/GPT-4", "Claude AI", "Midjourney", "GitHub Copilot", "NumPy/Pandas", "Scikit-learn"]
+    skills: [
+      "gimini",
+      "Claude Code",
+      "ChatGPT/GPT-4",
+      "AI Model Understanding",
+      "GitHub Copilot",
+      "perplexity",
+      "genspark",
+      "notebook lm",
+      "kimi",
+      "lovable",
+      "notion"
+    ]
   }
 ]
 
@@ -59,9 +77,8 @@ function SkillCard({
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -10, rotateX: 5, rotateY: -5, scale: 1.02 }}
-      className="glass-card p-6 rounded-2xl group hover:border-primary/30 transition-all duration-300 card-tilt"
-      style={{ transformStyle: 'preserve-3d', perspective: 1200 }}
+      whileHover={{ y: -8 }}
+      className="glass-card p-6 rounded-2xl group hover:border-primary/30 transition-all duration-300"
     >
       {/* Header with Icon */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
@@ -105,11 +122,7 @@ export function SkillsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section id="skills" className="py-32 relative section-3d" ref={ref}>
-      {/* Background Decoration */}
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-accent/5 rounded-full blur-3xl" />
-      <div className="hero-plane hero-plane-1" />
-
+    <section id="skills" className="py-32 relative" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -121,10 +134,6 @@ export function SkillsSection() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="text-gradient">Skills & Technologies</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            A comprehensive overview of my technical skills and the technologies 
-            I use to bring ideas to life.
-          </p>
         </motion.div>
 
         {/* Skills Grid */}
@@ -162,7 +171,6 @@ export function SkillsSection() {
                 whileHover={{ 
                   scale: 1.1, 
                   y: -4,
-                  rotateX: 4,
                   backgroundColor: "rgba(96, 165, 250, 0.2)"
                 }}
                 className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-full cursor-default hover:text-primary transition-all duration-200"

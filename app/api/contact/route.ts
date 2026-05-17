@@ -1,11 +1,15 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
+import nodemailer from "nodemailer"
+
+const recipientEmail = process.env.CONTACT_EMAIL || "krishivkatariya8116@gmail.com"
+const gmailUser = process.env.GMAIL_USER
+const gmailPass = process.env.GMAIL_PASS
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     const { name, email, subject, message } = body
 
-    // Validate required fields
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: "All fields are required" },
@@ -13,7 +17,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -22,30 +25,39 @@ export async function POST(request: Request) {
       )
     }
 
-    // Send email using mailto link simulation
-    // In production, you would integrate with an email service like:
-    // - Resend (resend.com)
-    // - SendGrid
-    // - AWS SES
-    // - Nodemailer with SMTP
-    
-    // For now, we'll return success and the form will open the user's email client
-    // with a pre-filled email as a fallback
-    
-    const mailtoLink = `mailto:krishivkatariya8116@gmail.com?subject=${encodeURIComponent(
-      `Portfolio Contact: ${subject}`
-    )}&body=${encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-    )}`
+    if (!gmailUser || !gmailPass) {
+      return NextResponse.json(
+        { error: "Email service is not configured. Set GMAIL_USER and GMAIL_PASS." },
+        { status: 500 }
+      )
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: gmailUser,
+        pass: gmailPass,
+      }
+    })
+
+    const mailOptions = {
+      from: gmailUser,
+      to: recipientEmail,
+      replyTo: email,
+      subject: `Portfolio Contact: ${subject}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Subject:</strong> ${subject}</p><p><strong>Message:</strong><br/>${message.replace(/\n/g, '<br/>')}</p>`
+    }
+
+    await transporter.sendMail(mailOptions)
 
     return NextResponse.json({
       success: true,
-      message: "Message received! Opening email client...",
-      mailtoLink,
+      message: "Message sent successfully.",
     })
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Failed to process request" },
+      { error: error instanceof Error ? error.message : "Failed to send message" },
       { status: 500 }
     )
   }

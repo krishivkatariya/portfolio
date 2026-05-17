@@ -5,7 +5,6 @@ import { useRef, useEffect, useState } from "react"
 import { ExternalLink, Github, Star, GitFork, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import Projects3D from "./projects-3d"
 
 interface GitHubRepo {
   id: number
@@ -50,9 +49,8 @@ function ProjectCard({
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15 }}
-      whileHover={{ y: -12, rotateX: 6, rotateY: -6, scale: 1.03 }}
-      className="group relative glass-card rounded-2xl overflow-hidden card-tilt"
-      style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+      whileHover={{ y: -8 }}
+      className="group relative glass-card rounded-2xl overflow-hidden"
     >
       {/* Image Placeholder with Gradient */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 via-primary/5 to-transparent">
@@ -105,7 +103,9 @@ function ProjectCard({
       {/* Content */}
       <div className="p-6">
         <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-          {project.name.replace(/-/g, " ").replace(/_/g, " ")}
+          {project.name === "virtual-mouce"
+            ? "virtual mouse"
+            : project.name.replace(/-/g, " ").replace(/_/g, " ")}
         </h3>
         <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
           {project.description || "A project by Krishiv Katariya"}
@@ -152,7 +152,7 @@ export function ProjectsSection() {
     async function fetchProjects() {
       try {
         const response = await fetch(
-          "https://api.github.com/users/krishivkatariya/repos?sort=updated&per_page=6"
+          "https://api.github.com/users/krishivkatariya/repos?sort=updated&per_page=100"
         )
         
         if (!response.ok) {
@@ -160,19 +160,35 @@ export function ProjectsSection() {
         }
         
         const data: GitHubRepo[] = await response.json()
-        
-        // Sort by stars + forks, then by update date
-        const sortedProjects = data
+        const allowedRepos = [
+          "Hopin",
+          "portfolio",
+          "virtual-mouce",
+          "watchhub",
+          "spproject",
+        ]
+
+        const normalizeName = (name: string) =>
+          name.toLowerCase().replace(/[-_ ]/g, "")
+
+        const allowedSet = new Set(allowedRepos.map(normalizeName))
+
+        const filteredProjects = data
           .filter(repo => !repo.name.includes(".github"))
-          .sort((a, b) => {
-            const scoreA = a.stargazers_count + a.forks_count
-            const scoreB = b.stargazers_count + b.forks_count
-            if (scoreA !== scoreB) return scoreB - scoreA
-            return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-          })
-          .slice(0, 6)
-        
-        setProjects(sortedProjects)
+          .filter(repo => allowedSet.has(normalizeName(repo.name)))
+
+        const orderedProjects = filteredProjects.sort((a, b) => {
+          return (
+            allowedRepos.indexOf(
+              allowedRepos.find(name => normalizeName(name) === normalizeName(a.name)) || ""
+            ) -
+            allowedRepos.indexOf(
+              allowedRepos.find(name => normalizeName(name) === normalizeName(b.name)) || ""
+            )
+          )
+        })
+
+        setProjects(orderedProjects)
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load projects")
       } finally {
@@ -184,12 +200,11 @@ export function ProjectsSection() {
   }, [])
 
   return (
-    <section id="projects" className="py-32 relative section-3d" ref={ref}>
+    <section id="projects" className="py-32 relative" ref={ref}>
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl" />
-      <div className="hero-plane hero-plane-3" />
       
-      <div className="container mx-auto px-6 scene-card">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -229,28 +244,16 @@ export function ProjectsSection() {
 
         {/* Projects Grid */}
         {!loading && !error && (
-          <>
-            {/* 3D Projects Visualization */}
-            <div className="mb-16">
-              <Projects3D projects={projects.map(project => ({
-                title: project.name.replace(/-/g, " ").replace(/_/g, " "),
-                description: project.description || "A project by Krishiv Katariya",
-                technologies: project.topics?.slice(0, 3) || [project.language || "Code"],
-                link: project.html_url
-              }))} />
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  isInView={isInView}
-                />
-              ))}
-            </div>
-          </>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <ProjectCard 
+                key={project.id} 
+                project={project} 
+                index={index} 
+                isInView={isInView} 
+              />
+            ))}
+          </div>
         )}
 
         {/* View All Projects Button */}
