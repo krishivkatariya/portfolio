@@ -1,5 +1,6 @@
 ﻿"use client"
 
+import Link from "next/link"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail, Download, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -177,9 +178,11 @@ export function HeroSection() {
             <Button 
               size="lg" 
               className="bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={() => window.location.href = '/resume'}
+              asChild
             >
-              <Download className="w-4 h-4 mr-2" /> Resume
+              <Link href="/resume">
+                <Download className="w-4 h-4 mr-2" /> Resume
+              </Link>
             </Button>
             <Button 
               variant="outline" 

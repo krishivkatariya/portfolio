@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { FileText, Download, ArrowLeft, AlertCircle, Upload } from "lucide-react"
+import { FileText, Download, ArrowLeft, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
@@ -215,72 +215,6 @@ export default function ResumePage() {
                 </div>
               </>
             )}
-          </>
-        )}
-
-        <div className="mt-8 pt-6 border-t border-border">
-          <Button
-            variant="ghost"
-            className="text-muted-foreground hover:text-foreground"
-            asChild
-          >
-            <Link href="/">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Portfolio
-            </Link>
-          </Button>
-        </div>
-      </motion.div>
-    </main>
-  )
-}
-
-              skills, and qualifications.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto"
-                asChild
-              >
-                <a href="/resume.pdf" download="Krishiv_Katariya_Resume.pdf">
-                  <Download className="w-5 h-5 mr-2" />
-                  Download Resume
-                </a>
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-border hover:bg-secondary w-full sm:w-auto"
-                asChild
-              >
-                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                  <FileText className="w-5 h-5 mr-2" />
-                  View in Browser
-                </a>
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex items-center justify-center gap-2 text-amber-400 mb-4">
-              <AlertCircle className="w-5 h-5" />
-              <span className="text-sm font-medium">Resume not uploaded yet</span>
-            </div>
-            
-            <p className="text-muted-foreground mb-8 leading-relaxed">
-              To add your resume, place your PDF file in the <code className="px-2 py-1 bg-secondary rounded text-sm font-mono">public</code> folder 
-              and name it <code className="px-2 py-1 bg-secondary rounded text-sm font-mono">resume.pdf</code>
-            </p>
-
-            <div className="p-4 bg-secondary/50 rounded-lg text-left mb-8">
-              <p className="text-sm text-muted-foreground font-mono">
-                public/<br />
-                └── resume.pdf
-              </p>
-            </div>
           </>
         )}
 

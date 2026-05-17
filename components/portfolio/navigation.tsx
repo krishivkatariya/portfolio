@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Github, Linkedin } from "lucide-react"
@@ -11,7 +12,7 @@ const navLinks = [
   { name: "Skills", href: "#skills" },
   { name: "Education", href: "#education" },
   { name: "Certifications", href: "#certifications" },
-  { name: "Contact", href: "https://mail.google.com/mail/?view=cm&fs=1&to=krishivkatariya8116@gmail.com" },
+  { name: "Contact", href: "#contact" },
 ]
 
 export function Navigation() {
@@ -52,12 +53,6 @@ export function Navigation() {
               <motion.a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => {
-                  if (link.name === "Contact") {
-                    e.preventDefault();
-                    window.open(link.href, "_blank");
-                  }
-                }}
                 className="text-sm text-muted-foreground hover:text-foreground transition-all duration-300 relative group px-3 py-2"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -103,9 +98,9 @@ export function Navigation() {
               size="sm"
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              <a href="/resume.pdf" download="Krishiv_Katariya_Resume.pdf" target="_blank" rel="noopener noreferrer">
+              <Link href="/resume">
                 Resume
-              </a>
+              </Link>
             </Button>
           </div>
 
@@ -168,9 +163,9 @@ export function Navigation() {
                 </a>
               </div>
               <Button asChild className="mt-4">
-                <a href="/resume.pdf" download="Krishiv_Katariya_Resume.pdf" target="_blank" rel="noopener noreferrer">
+                <Link href="/resume">
                   View Resume
-                </a>
+                </Link>
               </Button>
             </div>
           </motion.div>
